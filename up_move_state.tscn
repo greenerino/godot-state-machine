@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcwqmvvn5537l"]
+
+[ext_resource type="Script" path="res://up_move_state.gd" id="1_hb0w0"]
+
+[node name="UpMoveState" type="Node"]
+script = ExtResource("1_hb0w0")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

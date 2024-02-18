@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbeurgg0h8jis"]
+
+[ext_resource type="Script" path="res://Sphere.gd" id="1_15jdn"]
+[ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="1_n60wc"]
+[ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://up_move_state.tscn" id="3_ipmbo"]
+[ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://down_move_state.tscn" id="4_gd8yd"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
+
+[node name="World" type="Node"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.78746)
+light_color = Color(0.701961, 1, 1, 1)
+omni_range = 5.311
+
+[node name="Sphere" type="Node3D" parent="."]
+script = ExtResource("1_15jdn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere"]
+mesh = SubResource("SphereMesh_2pnyi")
+
+[node name="StateMachine" type="Node" parent="Sphere" node_paths=PackedStringArray("initial_state")]
+unique_name_in_owner = true
+script = ExtResource("1_n60wc")
+initial_state = NodePath("UpMoveState")
+
+[node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor") instance=ExtResource("3_ipmbo")]
+unique_name_in_owner = true
+actor = NodePath("../..")
+
+[node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor") instance=ExtResource("4_gd8yd")]
+unique_name_in_owner = true
+actor = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.04744)
+fov = 107.999
