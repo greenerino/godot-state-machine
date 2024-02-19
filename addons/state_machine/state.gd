@@ -6,6 +6,9 @@ signal state_finished
 @export_group("Physics", "physics")
 ## When enabled, physics processing will be enabled and disabled
 ## upon entering and exiting the state, respectively.
+##
+## When disabled, set_physics_process() will not be called at all.
+## This gives you the option to handle this on your own.
 @export var physics_enabled: bool = false
 
 @export_group("Animation")
@@ -21,8 +24,6 @@ func _ready() -> void:
 		set_physics_process(false)
 
 func _exit_state() -> void:
-	# If physics_enabled is false, we still don't want to mess with this since
-	# the extended state may have decided to delegate this to itself
 	if physics_enabled:
 		set_physics_process(false)
 
