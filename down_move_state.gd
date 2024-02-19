@@ -13,6 +13,7 @@ func _exit_state() -> void:
 func _enter_state() -> void:
 	set_physics_process(true)
 	timer.start()
+	super()
 
 func _physics_process(delta: float) -> void:
 	if actor:
