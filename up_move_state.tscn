@@ -4,6 +4,7 @@
 
 [node name="UpMoveState" type="Node"]
 script = ExtResource("1_hb0w0")
+physics_enabled = true
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

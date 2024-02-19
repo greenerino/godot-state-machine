@@ -5,13 +5,12 @@ extends State
 @onready var timer: Timer = %Timer
 
 func _ready() -> void:
-	set_physics_process(false)
+	super()
 
 func _exit_state() -> void:
-	set_physics_process(false)
+	super()
 
 func _enter_state() -> void:
-	set_physics_process(true)
 	timer.start()
 	super()
 
