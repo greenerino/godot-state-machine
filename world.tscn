@@ -1,13 +1,87 @@
-[gd_scene load_steps=6 format=3 uid="uid://cbeurgg0h8jis"]
+[gd_scene load_steps=14 format=3 uid="uid://cbeurgg0h8jis"]
 
 [ext_resource type="Script" path="res://Sphere.gd" id="1_15jdn"]
 [ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="1_n60wc"]
 [ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://up_move_state.tscn" id="3_ipmbo"]
 [ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://down_move_state.tscn" id="4_gd8yd"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s54k2"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_whff5"]
+sky_material = SubResource("ProceduralSkyMaterial_s54k2")
+
+[sub_resource type="Environment" id="Environment_uklin"]
+background_mode = 2
+sky = SubResource("Sky_whff5")
+tonemap_mode = 2
+glow_enabled = true
+
 [sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
 
+[sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
+radius = 0.24
+height = 0.48
+
+[sub_resource type="Animation" id="Animation_j7q8x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sphere/OrbitPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_268uj"]
+resource_name = "orbit_horizontal"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sphere/OrbitPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_lojk3"]
+resource_name = "orbit_vertical"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sphere/OrbitPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hmqd2"]
+_data = {
+"RESET": SubResource("Animation_j7q8x"),
+"orbit_horizontal": SubResource("Animation_268uj"),
+"orbit_vertical": SubResource("Animation_lojk3")
+}
+
 [node name="World" type="Node"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_uklin")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.78746)
@@ -25,14 +99,31 @@ unique_name_in_owner = true
 script = ExtResource("1_n60wc")
 initial_state = NodePath("UpMoveState")
 
-[node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor") instance=ExtResource("3_ipmbo")]
+[node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_ipmbo")]
 unique_name_in_owner = true
 actor = NodePath("../..")
+animation_player = NodePath("../../../AnimationPlayer")
+animation_name = &"orbit_vertical"
 
-[node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor") instance=ExtResource("4_gd8yd")]
+[node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("4_gd8yd")]
 unique_name_in_owner = true
 actor = NodePath("../..")
+animation_player = NodePath("../../../AnimationPlayer")
+animation_name = &"orbit_horizontal"
+
+[node name="OrbitPivot" type="Node3D" parent="Sphere"]
+
+[node name="Satellite" type="Node3D" parent="Sphere/OrbitPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.28661, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere/OrbitPivot/Satellite"]
+mesh = SubResource("SphereMesh_sswm4")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.04744)
 fov = 107.999
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hmqd2")
+}
