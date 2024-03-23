@@ -1,10 +1,10 @@
 [gd_scene load_steps=16 format=3 uid="uid://cbeurgg0h8jis"]
 
-[ext_resource type="Script" path="res://Sphere.gd" id="1_15jdn"]
-[ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="1_n60wc"]
-[ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://up_move_state.tscn" id="3_ipmbo"]
-[ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://down_move_state.tscn" id="4_gd8yd"]
-[ext_resource type="Script" path="res://addons/state_machine/state.gd" id="5_gne6r"]
+[ext_resource type="Script" path="res://example/Sphere.gd" id="1_1h4xe"]
+[ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="2_8d5o6"]
+[ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://example/states/up_move_state.tscn" id="3_dxpqm"]
+[ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://example/states/down_move_state.tscn" id="4_bckgd"]
+[ext_resource type="Script" path="res://addons/state_machine/state.gd" id="5_828ws"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s54k2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -50,6 +50,21 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.24]
+}
+
+[sub_resource type="Animation" id="Animation_bmhdm"]
+resource_name = "grow"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.24, 0.9]
 }
 
 [sub_resource type="Animation" id="Animation_268uj"]
@@ -108,21 +123,6 @@ tracks/1/keys = {
 "values": [0.24]
 }
 
-[sub_resource type="Animation" id="Animation_bmhdm"]
-resource_name = "grow"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.24, 0.9]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hmqd2"]
 _data = {
 "RESET": SubResource("Animation_j7q8x"),
@@ -142,23 +142,23 @@ light_color = Color(0.701961, 1, 1, 1)
 omni_range = 5.311
 
 [node name="Sphere" type="Node3D" parent="."]
-script = ExtResource("1_15jdn")
+script = ExtResource("1_1h4xe")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere"]
 mesh = SubResource("SphereMesh_2pnyi")
 
 [node name="StateMachine" type="Node" parent="Sphere" node_paths=PackedStringArray("initial_state")]
 unique_name_in_owner = true
-script = ExtResource("1_n60wc")
+script = ExtResource("2_8d5o6")
 initial_state = NodePath("UpMoveState")
 
-[node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_ipmbo")]
+[node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
 unique_name_in_owner = true
 actor = NodePath("../..")
 animation_player = NodePath("../../../AnimationPlayer")
 animation_name = &"orbit_vertical"
 
-[node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("4_gd8yd")]
+[node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("4_bckgd")]
 unique_name_in_owner = true
 actor = NodePath("../..")
 animation_player = NodePath("../../../AnimationPlayer")
@@ -166,7 +166,7 @@ animation_name = &"orbit_horizontal"
 
 [node name="GrowState" type="Node" parent="Sphere/StateMachine" node_paths=PackedStringArray("animation_player")]
 unique_name_in_owner = true
-script = ExtResource("5_gne6r")
+script = ExtResource("5_828ws")
 animation_player = NodePath("../../../AnimationPlayer")
 animation_name = &"grow"
 end_state_on_animation_end = true
