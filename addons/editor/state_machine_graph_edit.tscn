@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://hruyvpotgvnt"]
+
+[ext_resource type="Script" path="res://addons/editor/state_machine_graph_edit.gd" id="1_rir0t"]
+
+[node name="StateMachineGraphEdit" type="GraphEdit"]
+script = ExtResource("1_rir0t")
+
+[connection signal="connection_request" from="." to="." method="_on_connection_request"]
+[connection signal="disconnection_request" from="." to="." method="_on_disconnection_request"]
