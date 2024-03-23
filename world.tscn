@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://cbeurgg0h8jis"]
+[gd_scene load_steps=16 format=3 uid="uid://cbeurgg0h8jis"]
 
 [ext_resource type="Script" path="res://Sphere.gd" id="1_15jdn"]
 [ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="1_n60wc"]
 [ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://up_move_state.tscn" id="3_ipmbo"]
 [ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://down_move_state.tscn" id="4_gd8yd"]
+[ext_resource type="Script" path="res://addons/state_machine/state.gd" id="5_gne6r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s54k2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -38,6 +39,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.24]
+}
 
 [sub_resource type="Animation" id="Animation_268uj"]
 resource_name = "orbit_horizontal"
@@ -53,6 +66,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.24]
 }
 
 [sub_resource type="Animation" id="Animation_lojk3"]
@@ -70,10 +95,38 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.24]
+}
+
+[sub_resource type="Animation" id="Animation_bmhdm"]
+resource_name = "grow"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.24, 0.9]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hmqd2"]
 _data = {
 "RESET": SubResource("Animation_j7q8x"),
+"grow": SubResource("Animation_bmhdm"),
 "orbit_horizontal": SubResource("Animation_268uj"),
 "orbit_vertical": SubResource("Animation_lojk3")
 }
@@ -111,6 +164,13 @@ actor = NodePath("../..")
 animation_player = NodePath("../../../AnimationPlayer")
 animation_name = &"orbit_horizontal"
 
+[node name="GrowState" type="Node" parent="Sphere/StateMachine" node_paths=PackedStringArray("animation_player")]
+unique_name_in_owner = true
+script = ExtResource("5_gne6r")
+animation_player = NodePath("../../../AnimationPlayer")
+animation_name = &"grow"
+end_state_on_animation_end = true
+
 [node name="OrbitPivot" type="Node3D" parent="Sphere"]
 
 [node name="Satellite" type="Node3D" parent="Sphere/OrbitPivot"]
@@ -121,7 +181,9 @@ mesh = SubResource("SphereMesh_sswm4")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.04744)
+projection = 1
 fov = 107.999
+size = 8.35797
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

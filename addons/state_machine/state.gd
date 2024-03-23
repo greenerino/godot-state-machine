@@ -16,6 +16,7 @@ signal state_finished
 ## will automatically be played upon state enter.
 @export var animation_player: AnimationPlayer = null
 @export var animation_name: StringName = ""
+@export var end_state_on_animation_end: bool = false
 
 @export_group("")
 
@@ -26,10 +27,18 @@ func _ready() -> void:
 func _exit_state() -> void:
 	if physics_enabled:
 		set_physics_process(false)
+	
+	if animation_player and animation_player.animation_finished.is_connected(_on_animation_finished):
+		animation_player.animation_finished.disconnect(_on_animation_finished)
 
 func _enter_state() -> void:
 	if physics_enabled:
 		set_physics_process(true)
 
 	if animation_player and not animation_name.is_empty():
+		animation_player.animation_finished.connect(_on_animation_finished)
 		animation_player.play(animation_name)
+
+func _on_animation_finished(n: StringName) -> void:
+	if end_state_on_animation_end and n == animation_name:
+		state_finished.emit()
