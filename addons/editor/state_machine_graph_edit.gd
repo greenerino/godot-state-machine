@@ -40,8 +40,15 @@ func clear_graph_nodes() -> void:
 			child.queue_free()
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	print([from_node, from_port, to_node, to_port])
+	var from_state: State = find_child(from_node)
+	var to_state: State = find_child(to_node)
+	curr_state_machine.delta_func.add_transition(from_state, "state_finished", to_state)
 	connect_node(from_node, from_port, to_node, to_port)
+	print(curr_state_machine.delta_func.transitions)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	var from_state: State = find_child(from_node)
+	var to_state: State = find_child(to_node)
+	curr_state_machine.delta_func.remove_transition(from_state, "state_finished", to_state)
 	disconnect_node(from_node, from_port, to_node, to_port)
+	print(curr_state_machine.delta_func.transitions)
