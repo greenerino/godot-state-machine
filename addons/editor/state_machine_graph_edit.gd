@@ -15,6 +15,9 @@ func _on_edited_object_changed() -> void:
 	if state_machine:
 	# if state_machine and state_machine != curr_state_machine:
 		curr_state_machine = state_machine
+		if not curr_state_machine.delta_func is StateMachineDelta:
+			curr_state_machine.delta_func = StateMachineDelta.new()
+			EditorInterface.mark_scene_as_unsaved()
 		clear_graph_nodes()
 		for child in state_machine.get_children():
 			if child is State:
@@ -40,15 +43,11 @@ func clear_graph_nodes() -> void:
 			child.queue_free()
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var from_state: State = find_child(from_node)
-	var to_state: State = find_child(to_node)
-	curr_state_machine.delta_func.add_transition(from_state, "state_finished", to_state)
+	curr_state_machine.delta_func.add_transition(from_node, "state_finished", to_node)
+	EditorInterface.mark_scene_as_unsaved()
 	connect_node(from_node, from_port, to_node, to_port)
-	print(curr_state_machine.delta_func.transitions)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var from_state: State = find_child(from_node)
-	var to_state: State = find_child(to_node)
-	curr_state_machine.delta_func.remove_transition(from_state, "state_finished", to_state)
+	curr_state_machine.delta_func.remove_transition(from_node, "state_finished", to_node)
+	EditorInterface.mark_scene_as_unsaved()
 	disconnect_node(from_node, from_port, to_node, to_port)
-	print(curr_state_machine.delta_func.transitions)

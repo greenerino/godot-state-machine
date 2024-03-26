@@ -1,29 +1,20 @@
+@tool
 class_name StateMachineDelta
-extends Object
+extends Resource
 
-class Transition:
-	extends Object
-	var from: State
-	var signal_name: StringName
-	var to: State
+@export var transitions: Array[Transition] = []
 
-	func _init(f: State, sig: StringName, t: State) -> void:
-		from = f
-		signal_name = sig
-		to = t
-	
-	func props() -> Array:
-		return [from, signal_name, to]
+func _init() -> void:
+	changed.connect(_on_changed)
 
-	func equals(t: Transition) -> bool:
-		return props() == t.props()
-	
-var transitions: Array[Transition] = []
+func _on_changed() -> void:
+	inspect()
 
-func add_transition(from: State, signal_name: StringName, to: State) -> void:
+func add_transition(from: String, signal_name: StringName, to: String) -> void:
 	transitions.append(Transition.new(from, signal_name, to))
+	emit_changed()
 
-func remove_transition(from: State, signal_name: StringName, to: State) -> void:
+func remove_transition(from: String, signal_name: StringName, to: String) -> void:
 	var target := Transition.new(from, signal_name, to)
 	var idx := 0
 	var found := false
@@ -34,3 +25,12 @@ func remove_transition(from: State, signal_name: StringName, to: State) -> void:
 			idx += 1
 	if found:
 		transitions.remove_at(idx)
+		emit_changed()
+
+func inspect() -> void:
+	print("Inspecting %s" %[self])
+	for t in transitions:
+		if t is Transition:
+			print("Transition: %s" %[t.props()])
+		else:
+			print("Unknown: %s" %[t])
