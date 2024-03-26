@@ -10,11 +10,8 @@ func _init() -> void:
 func _on_changed() -> void:
 	inspect()
 
-func add_transition(from: String, signal_name: StringName, to: String) -> void:
-	transitions.append(Transition.new(from, signal_name, to))
-	emit_changed()
-
-func remove_transition(from: String, signal_name: StringName, to: String) -> void:
+## Returns the first index of the matching Transition, otherwise -1
+func find_transition(from: String, signal_name: StringName, to: String) -> int:
 	var target := Transition.new(from, signal_name, to)
 	var idx := 0
 	var found := false
@@ -23,7 +20,19 @@ func remove_transition(from: String, signal_name: StringName, to: String) -> voi
 			found = true
 		else:
 			idx += 1
-	if found:
+	return idx if found else -1
+
+func has_transition(from: String, signal_name: StringName, to: String) -> bool:
+	return find_transition(from, signal_name, to) > -1
+
+func add_transition(from: String, signal_name: StringName, to: String) -> void:
+	if not has_transition(from, signal_name, to):
+		transitions.append(Transition.new(from, signal_name, to))
+		emit_changed()
+
+func remove_transition(from: String, signal_name: StringName, to: String) -> void:
+	var idx := find_transition(from, signal_name, to)
+	if idx > -1:
 		transitions.remove_at(idx)
 		emit_changed()
 

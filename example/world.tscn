@@ -1,11 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://cbeurgg0h8jis"]
+[gd_scene load_steps=18 format=3 uid="uid://cbeurgg0h8jis"]
 
 [ext_resource type="Script" path="res://example/Sphere.gd" id="1_1h4xe"]
 [ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="2_8d5o6"]
 [ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://example/states/up_move_state.tscn" id="3_dxpqm"]
 [ext_resource type="Script" path="res://addons/state_machine/state_machine_delta.gd" id="3_vi1eu"]
 [ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://example/states/down_move_state.tscn" id="4_bckgd"]
-[ext_resource type="Script" path="res://addons/state_machine/transition.gd" id="4_mm7nm"]
 [ext_resource type="Script" path="res://addons/state_machine/state.gd" id="5_828ws"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s54k2"]
@@ -23,15 +22,9 @@ glow_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
 
-[sub_resource type="Resource" id="Resource_rlena"]
-script = ExtResource("4_mm7nm")
-from = "StateGraphNode"
-signal_name = &"state_finished"
-to = "@GraphNode@18053"
-
 [sub_resource type="Resource" id="Resource_jhtyd"]
 script = ExtResource("3_vi1eu")
-transitions = Array[ExtResource("4_mm7nm")]([SubResource("Resource_rlena")])
+transitions = Array[Resource("res://addons/state_machine/transition.gd")]([])
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
 radius = 0.24

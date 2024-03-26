@@ -42,10 +42,17 @@ func clear_graph_nodes() -> void:
 		if child is GraphNode:
 			child.queue_free()
 
+## Since there doesn't seem to be an explicit "disconnect" request from the Editor, we interpret
+## a double connection as a disconnect. Thus, if the connection already exists, we delegate to
+## _on_disconnection_request(). Otherwise, we continue with adding the transition and connecting
+## the node.
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	curr_state_machine.delta_func.add_transition(from_node, "state_finished", to_node)
-	EditorInterface.mark_scene_as_unsaved()
-	connect_node(from_node, from_port, to_node, to_port)
+	if curr_state_machine.delta_func.has_transition(from_node, "state_finished", to_node):
+		_on_disconnection_request(from_node, from_port, to_node, to_port)
+	else:
+		curr_state_machine.delta_func.add_transition(from_node, "state_finished", to_node)
+		EditorInterface.mark_scene_as_unsaved()
+		connect_node(from_node, from_port, to_node, to_port)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	curr_state_machine.delta_func.remove_transition(from_node, "state_finished", to_node)
