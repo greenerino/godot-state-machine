@@ -7,3 +7,4 @@ script = ExtResource("1_rir0t")
 
 [connection signal="connection_request" from="." to="." method="_on_connection_request"]
 [connection signal="disconnection_request" from="." to="." method="_on_disconnection_request"]
+[connection signal="end_node_move" from="." to="." method="_on_end_node_move"]

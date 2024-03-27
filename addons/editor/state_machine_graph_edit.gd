@@ -19,11 +19,17 @@ func _on_edited_object_changed() -> void:
 			curr_state_machine.delta_func = StateMachineDelta.new()
 			EditorInterface.mark_scene_as_unsaved()
 		clear_graph_nodes()
-		for child in state_machine.get_children():
+		for child_idx in state_machine.get_children().size():
+			var child: Node = state_machine.get_child(child_idx)
 			if child is State:
-				var state_node: StateGraphNode = StateGraphNodeScene.instantiate()
-				state_node.title = child.name
-				add_child(state_node)
+				var graph_node: StateGraphNode = StateGraphNodeScene.instantiate()
+				graph_node.title = child.name
+				if curr_state_machine.delta_func.graph_coords.has(graph_node.title):
+					graph_node.position_offset = curr_state_machine.delta_func.graph_coords[graph_node.title]
+				else:
+					graph_node.position_offset = Vector2.RIGHT.rotated((TAU / state_machine.get_child_count()) * child_idx) * 50 * state_machine.get_children().size()
+					curr_state_machine.delta_func.graph_coords[graph_node.title] = graph_node.position_offset
+				add_child(graph_node)
 
 func find_first_state_machine(nodes: Array[Node]) -> StateMachine:
 	var found: Node = nodes.reduce(
@@ -58,3 +64,10 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	curr_state_machine.delta_func.remove_transition(from_node, "state_finished", to_node)
 	EditorInterface.mark_scene_as_unsaved()
 	disconnect_node(from_node, from_port, to_node, to_port)
+
+func _on_end_node_move() -> void:
+	if not curr_state_machine.delta_func.graph_coords:
+		curr_state_machine.delta_func.graph_coords = {}
+	for child in get_children():
+		if child is GraphNode:
+			curr_state_machine.delta_func.graph_coords[child.title] = child.position_offset

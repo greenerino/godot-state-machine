@@ -3,6 +3,7 @@ class_name StateMachineDelta
 extends Resource
 
 @export var transitions: Array[Transition] = []
+@export var graph_coords: Dictionary = {}
 
 func _init() -> void:
 	changed.connect(_on_changed)

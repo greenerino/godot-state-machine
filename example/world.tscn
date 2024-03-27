@@ -22,9 +22,14 @@ glow_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
 
-[sub_resource type="Resource" id="Resource_jhtyd"]
+[sub_resource type="Resource" id="Resource_8g57d"]
 script = ExtResource("3_vi1eu")
 transitions = Array[Resource("res://addons/state_machine/transition.gd")]([])
+graph_coords = {
+"DownMoveState": Vector2(-75, 129.904),
+"GrowState": Vector2(-75, -129.904),
+"UpMoveState": Vector2(150, 0)
+}
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
 radius = 0.24
@@ -156,7 +161,7 @@ mesh = SubResource("SphereMesh_2pnyi")
 unique_name_in_owner = true
 script = ExtResource("2_8d5o6")
 initial_state = NodePath("UpMoveState")
-delta_func = SubResource("Resource_jhtyd")
+delta_func = SubResource("Resource_8g57d")
 
 [node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
 unique_name_in_owner = true
