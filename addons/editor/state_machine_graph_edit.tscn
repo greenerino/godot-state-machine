@@ -25,7 +25,7 @@ slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("3_eor73")
 
-[node name="@GraphNode@18161" type="GraphNode" parent="." instance=ExtResource("2_kxinh")]
+[node name="@GraphNode@39601" type="GraphNode" parent="." instance=ExtResource("2_kxinh")]
 layout_mode = 0
 offset_right = 201.0
 offset_bottom = 94.0
@@ -43,7 +43,7 @@ slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("3_eor73")
 
-[node name="@GraphNode@18170" type="GraphNode" parent="." instance=ExtResource("2_kxinh")]
+[node name="@GraphNode@39610" type="GraphNode" parent="." instance=ExtResource("2_kxinh")]
 layout_mode = 0
 offset_right = 201.0
 offset_bottom = 94.0

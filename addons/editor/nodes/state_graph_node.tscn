@@ -28,13 +28,8 @@ popup/item_0/text = "yooo"
 popup/item_0/checkable = 1
 popup/item_0/id = 0
 
-[node name="ClearButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "Clear Connections"
-
 [node name="AddButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 text = "Add Transition"
 
-[connection signal="pressed" from="HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/AddButton" to="." method="_on_add_button_pressed"]

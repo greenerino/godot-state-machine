@@ -22,31 +22,31 @@ glow_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
 
-[sub_resource type="Resource" id="Resource_42dj0"]
+[sub_resource type="Resource" id="Resource_unw3q"]
 script = ExtResource("3_5ngmo")
 from = "DownMoveState"
 signal_name = &"state_finished"
-to = "UpMoveState"
+to = "GrowState"
 
-[sub_resource type="Resource" id="Resource_2u1ht"]
+[sub_resource type="Resource" id="Resource_85drj"]
 script = ExtResource("3_5ngmo")
 from = "GrowState"
 signal_name = &"state_finished"
-to = "DownMoveState"
+to = "UpMoveState"
 
-[sub_resource type="Resource" id="Resource_yit3h"]
+[sub_resource type="Resource" id="Resource_sw3pp"]
 script = ExtResource("3_5ngmo")
 from = "UpMoveState"
 signal_name = &"state_finished"
-to = "GrowState"
+to = "DownMoveState"
 
-[sub_resource type="Resource" id="Resource_ucci6"]
+[sub_resource type="Resource" id="Resource_64jik"]
 script = ExtResource("3_vi1eu")
-transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_42dj0"), SubResource("Resource_2u1ht"), SubResource("Resource_yit3h")])
+transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_unw3q"), SubResource("Resource_85drj"), SubResource("Resource_sw3pp")])
 graph_coords = {
-"DownMoveState": Vector2(-75, 129.904),
-"GrowState": Vector2(-75, -129.904),
-"UpMoveState": Vector2(150, 0)
+"DownMoveState": Vector2(220, -80),
+"GrowState": Vector2(-80, -340),
+"UpMoveState": Vector2(420, -380)
 }
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
@@ -178,7 +178,7 @@ mesh = SubResource("SphereMesh_2pnyi")
 unique_name_in_owner = true
 script = ExtResource("2_8d5o6")
 initial_state = NodePath("UpMoveState")
-delta_func = SubResource("Resource_ucci6")
+delta_func = SubResource("Resource_64jik")
 
 [node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
 unique_name_in_owner = true
