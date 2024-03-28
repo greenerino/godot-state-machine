@@ -1,10 +1,10 @@
 [gd_scene load_steps=21 format=3 uid="uid://cbeurgg0h8jis"]
 
 [ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="2_8d5o6"]
+[ext_resource type="Script" path="res://addons/state_machine/transition.gd" id="3_5ngmo"]
 [ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://example/states/up_move_state.tscn" id="3_dxpqm"]
 [ext_resource type="Script" path="res://addons/state_machine/state_machine_delta.gd" id="3_vi1eu"]
 [ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://example/states/down_move_state.tscn" id="4_bckgd"]
-[ext_resource type="Script" path="res://addons/state_machine/transition.gd" id="4_sxm4d"]
 [ext_resource type="Script" path="res://addons/state_machine/state.gd" id="5_828ws"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s54k2"]
@@ -22,31 +22,31 @@ glow_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
 
-[sub_resource type="Resource" id="Resource_pah30"]
-script = ExtResource("4_sxm4d")
-from = "UpMoveState"
-signal_name = &"state_finished"
-to = "GrowState"
-
-[sub_resource type="Resource" id="Resource_4tfek"]
-script = ExtResource("4_sxm4d")
-from = "GrowState"
-signal_name = &"state_finished"
-to = "DownMoveState"
-
-[sub_resource type="Resource" id="Resource_h283x"]
-script = ExtResource("4_sxm4d")
+[sub_resource type="Resource" id="Resource_42dj0"]
+script = ExtResource("3_5ngmo")
 from = "DownMoveState"
 signal_name = &"state_finished"
 to = "UpMoveState"
 
-[sub_resource type="Resource" id="Resource_fbscr"]
+[sub_resource type="Resource" id="Resource_2u1ht"]
+script = ExtResource("3_5ngmo")
+from = "GrowState"
+signal_name = &"state_finished"
+to = "DownMoveState"
+
+[sub_resource type="Resource" id="Resource_yit3h"]
+script = ExtResource("3_5ngmo")
+from = "UpMoveState"
+signal_name = &"state_finished"
+to = "GrowState"
+
+[sub_resource type="Resource" id="Resource_ucci6"]
 script = ExtResource("3_vi1eu")
-transitions = Array[ExtResource("4_sxm4d")]([SubResource("Resource_pah30"), SubResource("Resource_4tfek"), SubResource("Resource_h283x")])
+transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_42dj0"), SubResource("Resource_2u1ht"), SubResource("Resource_yit3h")])
 graph_coords = {
-"DownMoveState": Vector2(-120, 100),
-"GrowState": Vector2(140, -200),
-"UpMoveState": Vector2(-360, -200)
+"DownMoveState": Vector2(-75, 129.904),
+"GrowState": Vector2(-75, -129.904),
+"UpMoveState": Vector2(150, 0)
 }
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
@@ -178,7 +178,7 @@ mesh = SubResource("SphereMesh_2pnyi")
 unique_name_in_owner = true
 script = ExtResource("2_8d5o6")
 initial_state = NodePath("UpMoveState")
-delta_func = SubResource("Resource_fbscr")
+delta_func = SubResource("Resource_ucci6")
 
 [node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
 unique_name_in_owner = true

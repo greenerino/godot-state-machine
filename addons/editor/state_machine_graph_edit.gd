@@ -30,6 +30,7 @@ func _on_edited_object_changed() -> void:
 					graph_node.position_offset = Vector2.RIGHT.rotated((TAU / state_machine.get_child_count()) * child_idx) * 50 * state_machine.get_children().size()
 					curr_state_machine.delta_func.graph_coords[graph_node.title] = graph_node.position_offset
 				add_child(graph_node)
+				graph_node.owner = self
 
 func find_first_state_machine(nodes: Array[Node]) -> StateMachine:
 	var found: Node = nodes.reduce(
@@ -53,9 +54,9 @@ func clear_graph_nodes() -> void:
 ## _on_disconnection_request(). Otherwise, we continue with adding the transition and connecting
 ## the node.
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var from_graph_node: GraphNode = find_child(from_node, false, false)
+	var from_graph_node: GraphNode = find_child(from_node)
 	var from_state_name: String = from_graph_node.title
-	var to_graph_node: GraphNode = find_child(to_node, false, false)
+	var to_graph_node: GraphNode = find_child(to_node)
 	var to_state_name: String = to_graph_node.title
 	if curr_state_machine.delta_func.has_transition(from_state_name, "state_finished", to_state_name):
 		_on_disconnection_request(from_node, from_port, to_node, to_port)
@@ -65,9 +66,9 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		connect_node(from_node, from_port, to_node, to_port)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var from_graph_node: GraphNode = find_child(from_node, false, false)
+	var from_graph_node: GraphNode = find_child(from_node)
 	var from_state_name: String = from_graph_node.title
-	var to_graph_node: GraphNode = find_child(to_node, false, false)
+	var to_graph_node: GraphNode = find_child(to_node)
 	var to_state_name: String = to_graph_node.title
 	curr_state_machine.delta_func.remove_transition(from_state_name, "state_finished", to_state_name)
 	EditorInterface.mark_scene_as_unsaved()
