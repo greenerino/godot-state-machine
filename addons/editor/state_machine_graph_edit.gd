@@ -22,16 +22,10 @@ func _on_edited_object_changed() -> void:
 		draw_current_sm_graph_nodes()
 
 func find_first_state_machine(nodes: Array[Node]) -> StateMachine:
-	var found: Node = nodes.reduce(
-		func(accum: Node, n: Node) -> Node:
-			if accum:
-				return accum
-			elif n is StateMachine:
-				return n
-			else:
-				return null
-	)
-	return found if found is StateMachine else null
+	for node in nodes:
+		if node is StateMachine:
+			return node
+	return null
 
 func draw_current_sm_graph_nodes() -> void:
 	# Add GraphNode children based on state machine children
