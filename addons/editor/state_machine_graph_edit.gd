@@ -53,15 +53,23 @@ func clear_graph_nodes() -> void:
 ## _on_disconnection_request(). Otherwise, we continue with adding the transition and connecting
 ## the node.
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	if curr_state_machine.delta_func.has_transition(from_node, "state_finished", to_node):
+	var from_graph_node: GraphNode = find_child(from_node, false, false)
+	var from_state_name: String = from_graph_node.title
+	var to_graph_node: GraphNode = find_child(to_node, false, false)
+	var to_state_name: String = to_graph_node.title
+	if curr_state_machine.delta_func.has_transition(from_state_name, "state_finished", to_state_name):
 		_on_disconnection_request(from_node, from_port, to_node, to_port)
 	else:
-		curr_state_machine.delta_func.add_transition(from_node, "state_finished", to_node)
+		curr_state_machine.delta_func.add_transition(from_state_name, "state_finished", to_state_name)
 		EditorInterface.mark_scene_as_unsaved()
 		connect_node(from_node, from_port, to_node, to_port)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	curr_state_machine.delta_func.remove_transition(from_node, "state_finished", to_node)
+	var from_graph_node: GraphNode = find_child(from_node, false, false)
+	var from_state_name: String = from_graph_node.title
+	var to_graph_node: GraphNode = find_child(to_node, false, false)
+	var to_state_name: String = to_graph_node.title
+	curr_state_machine.delta_func.remove_transition(from_state_name, "state_finished", to_state_name)
 	EditorInterface.mark_scene_as_unsaved()
 	disconnect_node(from_node, from_port, to_node, to_port)
 
