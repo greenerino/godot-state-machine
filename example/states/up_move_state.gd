@@ -1,5 +1,7 @@
 extends State
 
+signal timer_finished
+
 @export var actor: Node3D = null
 
 @onready var timer: Timer = %Timer
@@ -19,4 +21,4 @@ func _physics_process(delta: float) -> void:
 		actor.position.y += 2 * delta
 
 func _on_timer_timeout() -> void:
-	state_finished.emit()
+	timer_finished.emit()

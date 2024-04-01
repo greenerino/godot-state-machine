@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cbeurgg0h8jis"]
+[gd_scene load_steps=20 format=3 uid="uid://cbeurgg0h8jis"]
 
 [ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="2_8d5o6"]
 [ext_resource type="Script" path="res://addons/state_machine/transition.gd" id="3_5ngmo"]
@@ -22,31 +22,25 @@ glow_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
 
-[sub_resource type="Resource" id="Resource_unw3q"]
+[sub_resource type="Resource" id="Resource_v3usk"]
 script = ExtResource("3_5ngmo")
 from = "DownMoveState"
 signal_name = &"state_finished"
-to = "GrowState"
-
-[sub_resource type="Resource" id="Resource_85drj"]
-script = ExtResource("3_5ngmo")
-from = "GrowState"
-signal_name = &"state_finished"
 to = "UpMoveState"
 
-[sub_resource type="Resource" id="Resource_sw3pp"]
+[sub_resource type="Resource" id="Resource_h7yei"]
 script = ExtResource("3_5ngmo")
 from = "UpMoveState"
-signal_name = &"state_finished"
+signal_name = &"timer_finished"
 to = "DownMoveState"
 
-[sub_resource type="Resource" id="Resource_64jik"]
+[sub_resource type="Resource" id="Resource_wy131"]
 script = ExtResource("3_vi1eu")
-transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_unw3q"), SubResource("Resource_85drj"), SubResource("Resource_sw3pp")])
+transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_v3usk"), SubResource("Resource_h7yei")])
 graph_coords = {
-"DownMoveState": Vector2(220, -80),
-"GrowState": Vector2(-80, -340),
-"UpMoveState": Vector2(420, -380)
+"DownMoveState": Vector2(-240, 240),
+"GrowState": Vector2(120, -100),
+"UpMoveState": Vector2(-240, -140)
 }
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
@@ -178,7 +172,7 @@ mesh = SubResource("SphereMesh_2pnyi")
 unique_name_in_owner = true
 script = ExtResource("2_8d5o6")
 initial_state = NodePath("UpMoveState")
-delta_func = SubResource("Resource_64jik")
+delta_func = SubResource("Resource_wy131")
 
 [node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
 unique_name_in_owner = true

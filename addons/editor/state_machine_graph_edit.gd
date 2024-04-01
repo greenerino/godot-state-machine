@@ -34,6 +34,7 @@ func draw_current_sm_graph_nodes() -> void:
 		if child is State:
 			var graph_node: StateGraphNode = StateGraphNodeScene.instantiate()
 			graph_node.title = child.name
+			graph_node.state_scene = child
 			if curr_state_machine.delta_func.graph_coords.has(graph_node.title):
 				graph_node.position_offset = curr_state_machine.delta_func.graph_coords[graph_node.title]
 			else:
@@ -41,12 +42,16 @@ func draw_current_sm_graph_nodes() -> void:
 				curr_state_machine.delta_func.graph_coords[graph_node.title] = graph_node.position_offset
 			add_child(graph_node)
 			graph_node.owner = self
+
 	# Connect nodes based on existing connections
-	# TODO will need to do some lookups to figure out which ports to connect to based on the signal name
 	for transition in curr_state_machine.delta_func.transitions:
 		var from_graph_node: GraphNode = find_graph_node_by_title(transition.from)
+		var from_graph_port: int = from_graph_node.find_port_for_signal(transition.signal_name)
 		var to_graph_node: GraphNode = find_graph_node_by_title(transition.to)
-		connect_node(from_graph_node.name, 0, to_graph_node.name, 0)
+
+		if from_graph_port < 0:
+			push_error("Signal %s not found on node %s" %[transition.signal_name, from_graph_node])
+		connect_node(from_graph_node.name, from_graph_port, to_graph_node.name, 0)
 
 func find_graph_node_by_title(title: String) -> GraphNode:
 	for child in get_children():
@@ -67,12 +72,13 @@ func clear_graph_nodes() -> void:
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	var from_graph_node: GraphNode = find_child(from_node)
 	var from_state_name: String = from_graph_node.title
+	var from_state_signal: String = from_graph_node.find_signal_for_port(from_port)
 	var to_graph_node: GraphNode = find_child(to_node)
 	var to_state_name: String = to_graph_node.title
-	if curr_state_machine.delta_func.has_transition(from_state_name, "state_finished", to_state_name):
+	if curr_state_machine.delta_func.has_transition(from_state_name, from_state_signal, to_state_name):
 		_on_disconnection_request(from_node, from_port, to_node, to_port)
 	else:
-		curr_state_machine.delta_func.add_transition(from_state_name, "state_finished", to_state_name)
+		curr_state_machine.delta_func.add_transition(from_state_name, from_state_signal, to_state_name)
 		# TODO add history
 		EditorInterface.mark_scene_as_unsaved()
 		connect_node(from_node, from_port, to_node, to_port)
@@ -80,9 +86,10 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	var from_graph_node: GraphNode = find_child(from_node)
 	var from_state_name: String = from_graph_node.title
+	var from_state_signal: String = from_graph_node.find_signal_for_port(from_port)
 	var to_graph_node: GraphNode = find_child(to_node)
 	var to_state_name: String = to_graph_node.title
-	curr_state_machine.delta_func.remove_transition(from_state_name, "state_finished", to_state_name)
+	curr_state_machine.delta_func.remove_transition(from_state_name, from_state_signal, to_state_name)
 	# TODO add history
 	EditorInterface.mark_scene_as_unsaved()
 	disconnect_node(from_node, from_port, to_node, to_port)
