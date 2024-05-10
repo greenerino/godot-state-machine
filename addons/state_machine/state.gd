@@ -31,7 +31,7 @@ func _exit_state() -> void:
 	if animation_player and animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.disconnect(_on_animation_finished)
 
-func _enter_state() -> void:
+func _enter_state(_data: Dictionary = {}) -> void:
 	if physics_enabled:
 		set_physics_process(true)
 

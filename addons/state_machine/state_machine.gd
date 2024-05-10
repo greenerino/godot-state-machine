@@ -15,14 +15,33 @@ func apply_transitions() -> void:
 		var from_state: State = find_child(transition.from)
 		var to_state: State = find_child(transition.to)
 		if not from_state:
-			push_warning("Source state %s not found in State Machine children" %[from_state])
+			push_error("Source state %s not found in State Machine children. Aborting transition %s." %[from_state, transition.props()])
 		if not to_state:
-			push_warning("Target state %s not found in State Machine children" %[to_state])
+			push_error("Target state %s not found in State Machine children. Aborting transition %s." %[to_state, transition.props()])
 		if from_state and to_state:
-			from_state.connect(transition.signal_name, change_state.bind(to_state))
+			var sig: Dictionary = find_signal_by_name(from_state, transition.signal_name)
+			if sig.has("args"):
+				var args: Array[Dictionary] = sig["args"]
+				if args.size() == 1 and args[0]["type"] == TYPE_DICTIONARY:
+					from_state.connect(transition.signal_name, change_state_with_data.bind(to_state))
+				elif args.size() == 0:
+					from_state.connect(transition.signal_name, change_state.bind(to_state))
+				else:
+					push_error("Signal %s must either pass no arguments or a Dictionary argument. Aborting transition %s." %[transition.signal_name, transition.props()])
+
+func find_signal_by_name(state: State, sig_name: StringName) -> Dictionary:
+	var sig_list: Array[Dictionary] = state.get_signal_list()
+	for sig in sig_list:
+		if sig["name"] == sig_name:
+			return sig
+	push_error("Signal %s not found in State %s." %[sig_name, state])
+	return {}
 
 func change_state(next_state: State) -> void:
+	change_state_with_data({}, next_state)
+
+func change_state_with_data(data: Dictionary, next_state: State) -> void:
 	if curr_state is State:
 		curr_state._exit_state()
 	curr_state = next_state
-	next_state._enter_state()
+	next_state._enter_state(data)

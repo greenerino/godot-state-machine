@@ -39,8 +39,8 @@ script = ExtResource("3_vi1eu")
 transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_v3usk"), SubResource("Resource_h7yei")])
 graph_coords = {
 "DownMoveState": Vector2(-240, 240),
-"GrowState": Vector2(120, -100),
-"UpMoveState": Vector2(-240, -140)
+"GrowState": Vector2(0, -140),
+"UpMoveState": Vector2(-280, -100)
 }
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
