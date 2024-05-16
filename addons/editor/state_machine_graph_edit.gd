@@ -13,7 +13,6 @@ func _on_edited_object_changed() -> void:
 	var selections: Array[Node] = EditorInterface.get_selection().get_selected_nodes()
 	var state_machine: StateMachine = find_first_state_machine(selections)
 	if state_machine:
-	# if state_machine and state_machine != curr_state_machine:
 		curr_state_machine = state_machine
 		if not curr_state_machine.delta_func is StateMachineDelta:
 			curr_state_machine.delta_func = StateMachineDelta.new()
