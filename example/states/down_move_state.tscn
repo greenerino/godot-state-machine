@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bnqxwars415x7"]
 
-[ext_resource type="Script" path="res://down_move_state.gd" id="1_e1mbr"]
+[ext_resource type="Script" path="res://example/states/down_move_state.gd" id="1_e1mbr"]
 
 [node name="DownMoveState" type="Node"]
 script = ExtResource("1_e1mbr")

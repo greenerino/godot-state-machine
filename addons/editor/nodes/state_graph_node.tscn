@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfee2lejwowxd"]
+
+[ext_resource type="Script" path="res://addons/editor/nodes/state_graph_node.gd" id="1_0hvyh"]
+
+[node name="StateGraphNode" type="GraphNode"]
+offset_right = 201.0
+offset_bottom = 94.0
+title = "State"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(0, 0.588235, 0.109804, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(0.956863, 0.678431, 0.905882, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_0hvyh")
+
+[node name="InputElement" type="Label" parent="."]
+layout_mode = 2
