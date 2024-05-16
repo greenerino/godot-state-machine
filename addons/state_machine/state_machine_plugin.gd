@@ -15,18 +15,17 @@ func _enter_tree() -> void:
 	EditorInterface.get_editor_main_screen().add_child(main_panel_instance)
 	_make_visible(false)
 
-	# TODO: May be able to use EditorInterface.....get_icon() and remove the Node.svg from source
 	add_custom_type(
 		"StateMachine",
 		"Node",
 		preload("res://addons/state_machine/state_machine.gd"),
-		preload("res://addons/state_machine/Node.svg")
+		EditorInterface.get_editor_theme().get_icon("Node", "EditorIcons")
 	)
 	add_custom_type(
 		"State",
 		"Node",
 		preload("res://addons/state_machine/state.gd"),
-		preload("res://addons/state_machine/Node.svg")
+		EditorInterface.get_editor_theme().get_icon("Node", "EditorIcons")
 	)
 
 func _exit_tree() -> void:

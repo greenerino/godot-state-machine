@@ -79,7 +79,6 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		_on_disconnection_request(from_node, from_port, to_node, to_port)
 	else:
 		curr_state_machine.delta_func.add_transition(from_state_name, from_state_signal, to_state_name)
-		# TODO add history
 		EditorInterface.mark_scene_as_unsaved()
 		connect_node(from_node, from_port, to_node, to_port)
 
@@ -90,7 +89,6 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	var to_graph_node: GraphNode = find_child(to_node)
 	var to_state_name: String = to_graph_node.title
 	curr_state_machine.delta_func.remove_transition(from_state_name, from_state_signal, to_state_name)
-	# TODO add history
 	EditorInterface.mark_scene_as_unsaved()
 	disconnect_node(from_node, from_port, to_node, to_port)
 
