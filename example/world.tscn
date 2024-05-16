@@ -38,9 +38,9 @@ to = "DownMoveState"
 script = ExtResource("3_vi1eu")
 transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_v3usk"), SubResource("Resource_h7yei")])
 graph_coords = {
-"DownMoveState": Vector2(-240, 240),
-"GrowState": Vector2(0, -140),
-"UpMoveState": Vector2(-280, -100)
+"DownMoveState": Vector2(-180, 180),
+"GrowState": Vector2(40, 0),
+"UpMoveState": Vector2(-240, -100)
 }
 
 [sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
@@ -169,25 +169,21 @@ omni_range = 5.311
 mesh = SubResource("SphereMesh_2pnyi")
 
 [node name="StateMachine" type="Node" parent="Sphere" node_paths=PackedStringArray("initial_state")]
-unique_name_in_owner = true
 script = ExtResource("2_8d5o6")
 initial_state = NodePath("UpMoveState")
 delta_func = SubResource("Resource_wy131")
 
 [node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
-unique_name_in_owner = true
 actor = NodePath("../..")
 animation_player = NodePath("../../../AnimationPlayer")
 animation_name = &"orbit_vertical"
 
 [node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("4_bckgd")]
-unique_name_in_owner = true
 actor = NodePath("../..")
 animation_player = NodePath("../../../AnimationPlayer")
 animation_name = &"orbit_horizontal"
 
 [node name="GrowState" type="Node" parent="Sphere/StateMachine" node_paths=PackedStringArray("animation_player")]
-unique_name_in_owner = true
 script = ExtResource("5_828ws")
 animation_player = NodePath("../../../AnimationPlayer")
 animation_name = &"grow"
