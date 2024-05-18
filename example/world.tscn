@@ -51,9 +51,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.792728, 0)
 operation = 2
 size = Vector3(18, 1, 19)
 
-[node name="Player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("1_orahg")]
+[node name="Player" parent="." instance=ExtResource("1_orahg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.19032, 1.18795, -4.83564)
-camera = NodePath("../Camera3D")
 
 [node name="Skeleton_Warrior" parent="." instance=ExtResource("2_g2k6s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.91762, 0.94794, 6.20386)

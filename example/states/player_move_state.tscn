@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://du4a683w3fwkh"]
+
+[ext_resource type="Script" path="res://example/states/player_move_state.gd" id="1_2vmgt"]
+
+[node name="PlayerMoveState" type="Node"]
+script = ExtResource("1_2vmgt")
+physics_enabled = true
