@@ -5,12 +5,6 @@ extends Resource
 @export var transitions: Array[Transition] = []
 @export var graph_coords: Dictionary = {}
 
-func _init() -> void:
-	changed.connect(_on_changed)
-
-func _on_changed() -> void:
-	inspect()
-
 ## Returns the first index of the matching Transition, otherwise -1
 func find_transition(from: String, signal_name: StringName, to: String) -> int:
 	var target := Transition.new(from, signal_name, to)
