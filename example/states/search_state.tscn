@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c75h7jh6p1qks"]
+
+[ext_resource type="Script" path="res://example/states/search_state.gd" id="1_skett"]
+
+[node name="SearchState" type="Node"]
+script = ExtResource("1_skett")
+physics_enabled = true
+
+[node name="WanderTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="PauseTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
