@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4fvft0r6rk1r"]
+
+[ext_resource type="Script" path="res://example/states/death_state.gd" id="1_d56kl"]
+
+[node name="DeathState" type="Node"]
+script = ExtResource("1_d56kl")
+
+[node name="DespawnTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

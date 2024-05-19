@@ -24,6 +24,10 @@ gdscript/warnings/untyped_declaration=1
 
 enabled=PackedStringArray("res://addons/state_machine/plugin.cfg")
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [input]
 
 forward={
@@ -50,9 +54,17 @@ left={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
 ]
 }
+attack={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(214, 9),"global_position":Vector2(218, 50),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
+]
+}
 
 [layer_names]
 
 3d_physics/layer_1="World"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Enemy"
+3d_physics/layer_4="Hitbox"
+3d_physics/layer_5="Hurtbox"

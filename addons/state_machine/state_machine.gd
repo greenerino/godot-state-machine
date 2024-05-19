@@ -41,6 +41,7 @@ func change_state(next_state: State) -> void:
 	change_state_with_data({}, next_state)
 
 func change_state_with_data(data: Dictionary, next_state: State) -> void:
+	print("Current state: ", next_state)
 	if curr_state is State:
 		curr_state._exit_state()
 	curr_state = next_state

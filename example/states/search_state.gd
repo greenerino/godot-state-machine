@@ -29,6 +29,7 @@ func _exit_state() -> void:
 	wander_timer.timeout.disconnect(_on_wander_timer_timeout)
 	pause_timer.stop()
 	wander_timer.stop()
+	player_detection_area.set_deferred("monitoring", false)
 
 # If you pass a Dictionary as a single argument in a signal from another State,
 # that data will be passed to _enter_state.
@@ -39,6 +40,7 @@ func _enter_state(_data: Dictionary = {}) -> void:
 	wander_timer.timeout.connect(_on_wander_timer_timeout)
 	wandering = false
 	pause_timer.start(pause_time)
+	player_detection_area.set_deferred("monitoring", true)
 
 func _on_wander_timer_timeout() -> void:
 	wandering = false

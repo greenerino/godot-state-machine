@@ -11,12 +11,19 @@ signal state_finished
 ## This gives you the option to handle this on your own.
 @export var physics_enabled: bool = false
 
+
+# TODO: Animation documentation
 @export_group("Animation")
-## When set along with animation_name, the corresponding animation
-## will automatically be played upon state enter.
-@export var animation_player: AnimationPlayer = null
 @export var animation_name: StringName = ""
 @export var end_state_on_animation_end: bool = false
+
+@export_subgroup("Animation Player")
+@export var animation_player: AnimationPlayer = null
+
+@export_subgroup("Animation Tree")
+@export var animation_tree: AnimationTree = null
+@export var anim_tree_state_name: StringName = ""
+@export var anim_tree_state_machine_playback_path: StringName = "parameters/playback"
 
 @export_group("")
 
@@ -30,6 +37,8 @@ func _exit_state() -> void:
 	
 	if animation_player and animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.disconnect(_on_animation_finished)
+	if animation_tree and animation_tree.animation_finished.is_connected(_on_animation_finished):
+		animation_tree.animation_finished.disconnect(_on_animation_finished)
 
 func _enter_state(_data: Dictionary = {}) -> void:
 	if physics_enabled:
@@ -38,6 +47,10 @@ func _enter_state(_data: Dictionary = {}) -> void:
 	if animation_player and not animation_name.is_empty():
 		animation_player.animation_finished.connect(_on_animation_finished)
 		animation_player.play(animation_name)
+	elif animation_tree and not anim_tree_state_name.is_empty():
+		var anim_sm: AnimationNodeStateMachinePlayback = animation_tree[anim_tree_state_machine_playback_path]
+		anim_sm.travel(anim_tree_state_name)
+		animation_tree.animation_finished.connect(_on_animation_finished)
 
 func _on_animation_finished(n: StringName) -> void:
 	if end_state_on_animation_end and n == animation_name:
