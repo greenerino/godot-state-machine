@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cge0y02v3t3ed"]
+
+[ext_resource type="Script" path="res://example/states/player_swing_state.gd" id="1_dep2h"]
+
+[node name="PlayerSwingState" type="Node"]
+script = ExtResource("1_dep2h")
+animation_name = &"1H_Melee_Attack_Slice_Horizontal"
+end_state_on_animation_end = true
+anim_tree_state_name = &"Attack"
+
+[node name="AnticipateTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ContactTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

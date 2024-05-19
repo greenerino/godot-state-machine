@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://4vkfgkg80e0b"]
+
+[ext_resource type="Script" path="res://example/states/chase_state.gd" id="1_ecnmk"]
+
+[node name="ChaseState" type="Node"]
+script = ExtResource("1_ecnmk")
+physics_enabled = true

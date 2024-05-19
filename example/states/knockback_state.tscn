@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ekkyuxha013b"]
+
+[ext_resource type="Script" path="res://example/states/knockback_state.gd" id="1_qwxmc"]
+
+[node name="KnockbackState" type="Node"]
+script = ExtResource("1_qwxmc")
+physics_enabled = true
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

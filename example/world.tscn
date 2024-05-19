@@ -1,11 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://cbeurgg0h8jis"]
+[gd_scene load_steps=6 format=3 uid="uid://cbeurgg0h8jis"]
 
-[ext_resource type="Script" path="res://addons/state_machine/state_machine.gd" id="2_8d5o6"]
-[ext_resource type="Script" path="res://addons/state_machine/transition.gd" id="3_5ngmo"]
-[ext_resource type="PackedScene" uid="uid://bcwqmvvn5537l" path="res://example/states/up_move_state.tscn" id="3_dxpqm"]
-[ext_resource type="Script" path="res://addons/state_machine/state_machine_delta.gd" id="3_vi1eu"]
-[ext_resource type="PackedScene" uid="uid://bnqxwars415x7" path="res://example/states/down_move_state.tscn" id="4_bckgd"]
-[ext_resource type="Script" path="res://addons/state_machine/state.gd" id="5_828ws"]
+[ext_resource type="PackedScene" uid="uid://d02bycab0wpb7" path="res://example/entities/player.tscn" id="1_orahg"]
+[ext_resource type="PackedScene" uid="uid://pdjibp278rvl" path="res://example/entities/skeleton_warrior.tscn" id="2_g2k6s"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s54k2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -20,190 +16,46 @@ sky = SubResource("Sky_whff5")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="SphereMesh" id="SphereMesh_2pnyi"]
-
-[sub_resource type="Resource" id="Resource_v3usk"]
-script = ExtResource("3_5ngmo")
-from = "DownMoveState"
-signal_name = &"state_finished"
-to = "UpMoveState"
-
-[sub_resource type="Resource" id="Resource_h7yei"]
-script = ExtResource("3_5ngmo")
-from = "UpMoveState"
-signal_name = &"timer_finished"
-to = "DownMoveState"
-
-[sub_resource type="Resource" id="Resource_wy131"]
-script = ExtResource("3_vi1eu")
-transitions = Array[ExtResource("3_5ngmo")]([SubResource("Resource_v3usk"), SubResource("Resource_h7yei")])
-graph_coords = {
-"DownMoveState": Vector2(-180, 180),
-"GrowState": Vector2(40, 0),
-"UpMoveState": Vector2(-240, -100)
-}
-
-[sub_resource type="SphereMesh" id="SphereMesh_sswm4"]
-radius = 0.24
-height = 0.48
-
-[sub_resource type="Animation" id="Animation_j7q8x"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sphere/OrbitPivot:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.24]
-}
-
-[sub_resource type="Animation" id="Animation_bmhdm"]
-resource_name = "grow"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.24, 0.9]
-}
-
-[sub_resource type="Animation" id="Animation_268uj"]
-resource_name = "orbit_horizontal"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sphere/OrbitPivot:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.24]
-}
-
-[sub_resource type="Animation" id="Animation_lojk3"]
-resource_name = "orbit_vertical"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sphere/OrbitPivot:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sphere/OrbitPivot/Satellite/MeshInstance3D:mesh:radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.24]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hmqd2"]
-_data = {
-"RESET": SubResource("Animation_j7q8x"),
-"grow": SubResource("Animation_bmhdm"),
-"orbit_horizontal": SubResource("Animation_268uj"),
-"orbit_vertical": SubResource("Animation_lojk3")
-}
-
 [node name="World" type="Node"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_uklin")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.78746)
-light_color = Color(0.701961, 1, 1, 1)
-omni_range = 5.311
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05017, 4.12456, -2.53585)
+light_color = Color(0.847059, 0.631373, 0, 1)
+omni_range = 11.64
 
-[node name="Sphere" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere"]
-mesh = SubResource("SphereMesh_2pnyi")
-
-[node name="StateMachine" type="Node" parent="Sphere" node_paths=PackedStringArray("initial_state")]
-script = ExtResource("2_8d5o6")
-initial_state = NodePath("UpMoveState")
-delta_func = SubResource("Resource_wy131")
-
-[node name="UpMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("3_dxpqm")]
-actor = NodePath("../..")
-animation_player = NodePath("../../../AnimationPlayer")
-animation_name = &"orbit_vertical"
-
-[node name="DownMoveState" parent="Sphere/StateMachine" node_paths=PackedStringArray("actor", "animation_player") instance=ExtResource("4_bckgd")]
-actor = NodePath("../..")
-animation_player = NodePath("../../../AnimationPlayer")
-animation_name = &"orbit_horizontal"
-
-[node name="GrowState" type="Node" parent="Sphere/StateMachine" node_paths=PackedStringArray("animation_player")]
-script = ExtResource("5_828ws")
-animation_player = NodePath("../../../AnimationPlayer")
-animation_name = &"grow"
-end_state_on_animation_end = true
-
-[node name="OrbitPivot" type="Node3D" parent="Sphere"]
-
-[node name="Satellite" type="Node3D" parent="Sphere/OrbitPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.28661, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere/OrbitPivot/Satellite"]
-mesh = SubResource("SphereMesh_sswm4")
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1879, 4.87241, 4.87337)
+light_color = Color(0.847059, 0.631373, 0, 1)
+omni_range = 11.047
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.04744)
+transform = Transform3D(0.707107, 0.428499, -0.562485, 0, 0.795473, 0.605988, 0.707107, -0.428499, 0.562485, -10, 11, 10)
 projection = 1
 fov = 107.999
-size = 8.35797
+size = 18.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_hmqd2")
-}
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.655212, 0)
+use_collision = true
+collision_mask = 6
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+size = Vector3(20, 2.31042, 20)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.792728, 0)
+operation = 2
+size = Vector3(19, 1, 19)
+
+[node name="Player" parent="." instance=ExtResource("1_orahg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.19032, 1.18795, -4.83564)
+
+[node name="Skeleton_Warrior" parent="." instance=ExtResource("2_g2k6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.91762, 0.94794, 6.20386)
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 11, 10)
+gizmo_extents = 1.4
