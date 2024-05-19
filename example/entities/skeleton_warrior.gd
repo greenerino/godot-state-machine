@@ -1,3 +1,4 @@
+class_name SkeletonWarrior
 extends CharacterBody3D
 
 @onready var anim_tree: AnimationTree = %AnimationTree
