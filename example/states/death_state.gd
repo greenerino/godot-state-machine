@@ -1,3 +1,4 @@
+class_name DeathState
 extends State
 
 @export var actor: CharacterBody3D = null
