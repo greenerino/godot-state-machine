@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 gdscript/warnings/exclude_addons=false
 gdscript/warnings/untyped_declaration=1
 
+[display]
+
+window/size/viewport_width=1900
+window/size/viewport_height=1080
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/state_machine/plugin.cfg")

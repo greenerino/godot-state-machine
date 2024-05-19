@@ -23,19 +23,19 @@ environment = SubResource("Environment_uklin")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05017, 4.12456, -2.53585)
-light_color = Color(0.701961, 1, 1, 1)
+light_color = Color(0.847059, 0.631373, 0, 1)
 omni_range = 11.64
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1879, 4.87241, 4.87337)
-light_color = Color(0.701961, 1, 1, 1)
+light_color = Color(0.847059, 0.631373, 0, 1)
 omni_range = 11.047
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, 0.428499, -0.562485, 0, 0.795473, 0.605988, 0.707107, -0.428499, 0.562485, -6.5, 8.5, 7)
+transform = Transform3D(0.707107, 0.428499, -0.562485, 0, 0.795473, 0.605988, 0.707107, -0.428499, 0.562485, -10, 11, 10)
 projection = 1
 fov = 107.999
-size = 15.8517
+size = 18.0
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.655212, 0)
@@ -43,16 +43,19 @@ use_collision = true
 collision_mask = 6
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
-size = Vector3(19, 2.31042, 20)
+size = Vector3(20, 2.31042, 20)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.792728, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.792728, 0)
 operation = 2
-size = Vector3(18, 1, 19)
+size = Vector3(19, 1, 19)
 
 [node name="Player" parent="." instance=ExtResource("1_orahg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.19032, 1.18795, -4.83564)
 
 [node name="Skeleton_Warrior" parent="." instance=ExtResource("2_g2k6s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.91762, 0.94794, 6.20386)
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 11, 10)
+gizmo_extents = 1.4
