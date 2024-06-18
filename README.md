@@ -59,8 +59,8 @@ Under the hood, the editor just records which states should be activated by whic
 class_name Player
 
 @onready var sm: StateMachine = %StateMachine
-@onready var s1: State = StateOne
-@onready var s2: State = StateTwo
+@onready var s1: State = %StateOne
+@onready var s2: State = %StateTwo
 
 func _ready() -> void:
   s1.state_finished.connect(sm.change_state.bind(s2))
