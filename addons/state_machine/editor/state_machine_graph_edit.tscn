@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hruyvpotgvnt"]
 
-[ext_resource type="Script" path="res://addons/editor/state_machine_graph_edit.gd" id="1_rir0t"]
+[ext_resource type="Script" path="res://addons/state_machine/editor/state_machine_graph_edit.gd" id="1_rir0t"]
 
 [node name="StateMachineGraphEdit" type="GraphEdit"]
 script = ExtResource("1_rir0t")

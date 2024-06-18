@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dbhu07evwl8wg"]
 
-[ext_resource type="PackedScene" uid="uid://hruyvpotgvnt" path="res://addons/editor/state_machine_graph_edit.tscn" id="1_2x4hs"]
+[ext_resource type="PackedScene" uid="uid://hruyvpotgvnt" path="res://addons/state_machine/editor/state_machine_graph_edit.tscn" id="1_2x4hs"]
 
 [node name="Main" type="Control"]
 layout_mode = 3

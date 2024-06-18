@@ -2,7 +2,7 @@
 class_name StateMachineGraphEdit
 extends GraphEdit
 
-const StateGraphNodeScene = preload("res://addons/editor/nodes/state_graph_node.tscn")
+const StateGraphNodeScene = preload("res://addons/state_machine/editor/nodes/state_graph_node.tscn")
 
 var curr_state_machine: StateMachine = null
 
