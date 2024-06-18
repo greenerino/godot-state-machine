@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bfee2lejwowxd"]
 
-[ext_resource type="Script" path="res://addons/editor/nodes/state_graph_node.gd" id="1_0hvyh"]
+[ext_resource type="Script" path="res://addons/state_machine/editor/nodes/state_graph_node.gd" id="1_0hvyh"]
 
 [node name="StateGraphNode" type="GraphNode"]
 offset_right = 201.0

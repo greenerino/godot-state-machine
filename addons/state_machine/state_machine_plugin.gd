@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const MainPanel = preload("res://addons/editor/main.tscn")
+const MainPanel = preload("res://addons/state_machine/editor/main.tscn")
 var main_panel_instance : Control = null
 
 func _has_main_screen() -> bool:
