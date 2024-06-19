@@ -1,14 +1,27 @@
+@tool
 class_name StateMachine
 extends Node
 
-@export var initial_state: State = null
+@export var initial_state: State = null:
+	set(value):
+		initial_state = value
+		update_configuration_warnings()
 var curr_state: State = null
 
 @export var delta_func: StateMachineDelta
 
 func _ready() -> void:
-	apply_transitions()
-	change_state(initial_state)
+	if not Engine.is_editor_hint():
+		apply_transitions()
+		change_state(initial_state)
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warns: PackedStringArray = []
+	if initial_state == null:
+		warns.append("Initial state is not set.")
+	elif not is_ancestor_of(initial_state):
+		warns.append("Initial state is not a child of this State Machine.")
+	return warns
 
 func apply_transitions() -> void:
 	for transition in delta_func.transitions:
