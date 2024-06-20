@@ -8,12 +8,14 @@ var curr_state_machine: StateMachine = null
 
 func _ready() -> void:
 	EditorInterface.get_inspector().edited_object_changed.connect(_on_edited_object_changed)
+	scroll_offset_changed.connect(_on_scroll_offset_changed)
 
 func _on_edited_object_changed() -> void:
 	var selections: Array[Node] = EditorInterface.get_selection().get_selected_nodes()
 	var new_state_machine: StateMachine = find_first_state_machine(selections)
 	if new_state_machine:
-		disconnect_sm_delta_signals(curr_state_machine)
+		if is_instance_valid(curr_state_machine):
+			disconnect_sm_delta_signals(curr_state_machine)
 		curr_state_machine = new_state_machine
 		if not new_state_machine.delta_func is StateMachineDelta:
 			new_state_machine.delta_func = StateMachineDelta.new()
@@ -21,6 +23,33 @@ func _on_edited_object_changed() -> void:
 		connect_sm_delta_signals(new_state_machine)
 		clear_graph_nodes()
 		draw_current_sm_graph_nodes()
+		if new_state_machine.editor_scroll_offset:
+			# Assignment order matters here. Changing zoom also changes the offset, so we need
+			# to overwrite that automatic change.
+			zoom = new_state_machine.editor_zoom
+			scroll_offset = new_state_machine.editor_scroll_offset
+		else:
+			zoom = 1.0
+			scroll_offset = midpoint() - (size / 2)
+
+## Returns the center relative to the existing graph nodes
+func midpoint() -> Vector2:
+	var min_x: float = INF
+	var max_x: float = -INF
+	var min_y: float = INF
+	var max_y: float = -INF
+	for child in get_children():
+		if child is GraphNode:
+			min_x = min(min_x, child.position_offset.x)
+			max_x = max(max_x, child.position_offset.x + child.size.x)
+			min_y = min(min_y, child.position_offset.y)
+			max_y = max(max_y, child.position_offset.y + child.size.y)
+	return Vector2((min_x + max_x) / 2, (min_y + max_y) / 2)
+
+func _on_scroll_offset_changed(offset: Vector2) -> void:
+	if curr_state_machine:
+		curr_state_machine.editor_scroll_offset = offset
+		curr_state_machine.editor_zoom = zoom
 
 func find_first_state_machine(nodes: Array[Node]) -> StateMachine:
 	for node in nodes:

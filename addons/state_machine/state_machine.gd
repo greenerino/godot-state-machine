@@ -8,7 +8,10 @@ extends Node
 		update_configuration_warnings()
 var curr_state: State = null
 
+@export_group("Internal")
 @export var delta_func: StateMachineDelta
+@export var editor_scroll_offset: Vector2
+@export var editor_zoom: float = 1.0
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
