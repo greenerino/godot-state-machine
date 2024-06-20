@@ -22,6 +22,21 @@ func _on_edited_object_changed() -> void:
 		connect_sm_delta_signals(new_state_machine)
 		clear_graph_nodes()
 		draw_current_sm_graph_nodes()
+		scroll_offset = midpoint() - (size / 2)
+
+## Returns the center relative to the existing graph nodes
+func midpoint() -> Vector2:
+	var min_x: float = INF
+	var max_x: float = -INF
+	var min_y: float = INF
+	var max_y: float = -INF
+	for child in get_children():
+		if child is GraphNode:
+			min_x = min(min_x, child.position_offset.x)
+			max_x = max(max_x, child.position_offset.x + child.size.x)
+			min_y = min(min_y, child.position_offset.y)
+			max_y = max(max_y, child.position_offset.y + child.size.y)
+	return Vector2((min_x + max_x) / 2, (min_y + max_y) / 2)
 
 func find_first_state_machine(nodes: Array[Node]) -> StateMachine:
 	for node in nodes:
